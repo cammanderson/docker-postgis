@@ -4,9 +4,10 @@ set -x
 
 # postgres settings
 sed -i -e"s/^shared_buffers = 128MB.*$/shared_buffers = 512MB/" ${PGDATA}/postgresql.conf
-sed -i -e"s/^#work_mem = 4MB.*$/work_mem = 1GB/" ${PGDATA}/postgresql.conf
-sed -i -e"s/^#maintenance_work_mem = 64MB.*$/maintenance_work_mem = 1GB/" ${PGDATA}/postgresql.conf
-sed -i -e"s/^#checkpoint_segments = 3.*$/checkpoint_segments = 20/" ${PGDATA}/postgresql.conf
+sed -i -e"s/^#work_mem = 4MB.*$/work_mem = 256MB/" ${PGDATA}/postgresql.conf
+sed -i -e"s/^#maintenance_work_mem = 64MB.*$/maintenance_work_mem = 256MB/" ${PGDATA}/postgresql.conf
+sed -i -e"s/^#checkpoint_segments = 3.*$/checkpoint_segments = 60/" ${PGDATA}/postgresql.conf
+sed -i -e"s/^#autovacuum = on.*$/autovacuum = off/" ${PGDATA}/postgresql.conf
 
 export PGUSER="$POSTGRES_USER"
 
