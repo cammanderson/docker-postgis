@@ -24,7 +24,7 @@ CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
 CREATE EXTENSION IF NOT EXISTS hstore;
 EOSQL
 
-num_files=`ls /data/import/*.osm | wc -l`
+num_files=`ls /data/import | grep osm | wc -l`
 
 if (( num_files > 0 )); then
     PBF_FILE=""
