@@ -19,6 +19,9 @@ EOSQL
 echo "Loading PostGIS extensions into 'gis'"
 "${psql[@]}" --dbname="gis" <<-'EOSQL'
 CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE EXTENSION IF NOT EXISTS postgis_topology;
+CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
+CREATE EXTENSION IF NOT EXISTS hstore;
 EOSQL
 
 num_files=`ls /data/import/*.osm | wc -l`
@@ -35,12 +38,11 @@ if (( num_files > 0 )); then
             else
                 osmosis_cmd="$osmosis_cmd --merge"
             fi
-        done 
+        done
         PBF_FILE="/data/merged_files.osm.pbf"
         $osmosis_cmd --wb $PBF_FILE
     else
         PBF_FILE=/data/import/`ls /data/import/`
     fi
-    osm2pgsql -d gis $PBF_FILE
+    osm2pgsql -d gis --slim --number-processes 3 --hstore --multi-geometry $PBF_FILE
 fi
-
