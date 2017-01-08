@@ -7,7 +7,9 @@ ENV LANG en_AU.utf8
 RUN apt-get update \
   && apt-get install -y --no-install-recommends --fix-missing \
      osm2pgsql \
-     osmosis \
+     osmosis
+
+RUN apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /docker-entrypoint-initdb.d
@@ -18,4 +20,4 @@ RUN mkdir -p /data/import
 # Add VOLUMEs to allow backup of config, logs and databases
 VOLUME ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
-EXPOSE 5432 
+EXPOSE 5432
